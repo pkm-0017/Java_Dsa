@@ -22,7 +22,7 @@ public class BinaryTree {
 
         root = new Node(value);
 
-        populate(sc, root);
+        populate(sc, root); // This calls the recursive method and says:
     }
 
     // Recursive method to create children
