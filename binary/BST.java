@@ -10,6 +10,7 @@ public class BST {
 
         public Node(int value) {
             this.value = value;
+            this.height = 0;
         }
 
         public int getValue() {
@@ -34,36 +35,96 @@ public class BST {
 
         return node.height;
     }
-    public boolean isEmpty(){
-         return root==null ; 
+
+    // Check whether tree is empty
+    public boolean isEmpty() {
+        return root == null;
     }
-    public void insert(int val){
-        root = insert(root , value);
+
+    // Public insert method
+    public void insert(int value) {
+        root = insert(value, root);
     }
-    private Node insert(int value , Node node){
-        if(node==null){
-            node = new Node(value);
-            return node ;
+
+    // Private recursive insert method
+    private Node insert(int value, Node node) {
+
+        // Create a new node
+        if (node == null) {
+            return new Node(value);
         }
-        if(value<node.value){
-            node.left = insert(value , node.left);
+
+        // Insert into left subtree
+        if (value < node.value) {
+            node.left = insert(value, node.left);
         }
-        if(value>node.value){
-            node.right = insert(value , node.right);
+
+        // Insert into right subtree
+        if (value > node.value) {
+            node.right = insert(value, node.right);
         }
-        // update the height
-        node.height = Math.max(height(node.left) , height(node.right)) + 1 ;
-        return node ;
+
+        // Update the height of current node
+        node.height =
+                Math.max(height(node.left), height(node.right)) + 1;
+
+        return node;
     }
-    public boolean balanced(){
+
+    // Check whether the complete tree is balanced
+    public boolean balanced() {
         return balanced(root);
     }
-    private boolean balanced(Node node){
-        if(node==null){
-            return true ; 
+
+    // Check whether a subtree is balanced
+    private boolean balanced(Node node) {
+
+        if (node == null) {
+            return true;
         }
-        return Math.abs(height(node.left) - heigth(node.right)) <= 1 && balanced(node.left) && balanced(node.right);
+
+        int difference =
+                Math.abs(height(node.left) - height(node.right));
+
+        return difference <= 1
+                && balanced(node.left)
+                && balanced(node.right);
     }
 
+    // Public display method
+    public void display() {
+        display(root, "Root Node: ");
+    }
 
+    // Private recursive display method
+    private void display(Node node, String details) {
+
+        if (node == null) {
+            return;
+        }
+
+        System.out.println(details + node.value);
+
+        display(node.left, "Left child of " + node.value + ": ");
+        display(node.right, "Right child of " + node.value + ": ");
+    }
+
+    // Main method
+    public static void main(String[] args) {
+
+        BST tree = new BST();
+
+        tree.insert(10);
+        tree.insert(5);
+        tree.insert(15);
+        tree.insert(2);
+        tree.insert(7);
+        tree.insert(12);
+        tree.insert(20);
+
+        tree.display();
+
+        System.out.println("Tree is empty: " + tree.isEmpty());
+        System.out.println("Tree is balanced: " + tree.balanced());
+    }
 }
